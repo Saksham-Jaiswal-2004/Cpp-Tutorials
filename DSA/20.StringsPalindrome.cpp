@@ -13,6 +13,7 @@ char toLower(char ch)
       return ch-'A'+'a';
 }
 
+// Approach 1
 bool checkPalindrome(string s)
 {
     string s2;
@@ -53,6 +54,37 @@ bool checkPalindrome(string s)
     }
 }
 
+// Approach 2
+bool isPalindrome(string s) 
+{
+    string s2;
+
+    // Convert to lowercase and filter alphanumeric characters
+    transform(s.begin(), s.end(), s.begin(), ::tolower);
+
+    for (char ch : s) 
+    {
+        if (isalnum(ch)) 
+        {
+            s2.push_back(ch); // Use push_back instead of string concatenation
+        }
+    }
+
+    // Check if the filtered string is a palindrome
+    int start = 0, end = s2.size() - 1;
+
+    while (start < end) 
+    {
+        if (s2[start] != s2[end]) 
+        {
+            return false;
+        }
+        start++;
+        end--;
+    }
+    return true;
+}
+
 int main()
 {
     string word;
@@ -61,6 +93,14 @@ int main()
     getline(cin, word);
 
     if(checkPalindrome(word))
+    {
+        cout<<"Palindrome!"<<endl;
+    }
+    else
+    {
+        cout<<"Not Palindrome!"<<endl;
+    }
+    if(isPalindrome(word))
     {
         cout<<"Palindrome!"<<endl;
     }
