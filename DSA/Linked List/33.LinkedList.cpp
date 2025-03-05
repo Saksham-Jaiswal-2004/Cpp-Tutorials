@@ -13,6 +13,17 @@ class Node //Class
         this->data = data;
         this->next = NULL;
     }
+
+    ~Node() //Destructor
+    {
+        int value = this->data;
+        if(this->next != NULL)
+        {
+            delete next;
+            this->next = NULL;
+        }
+        cout << "\nMemory is free for node with data " << value << endl;
+    }
 };
 
 void insertAtHead(Node* &head, int val)
@@ -63,18 +74,37 @@ int insertAtMiddle(Node* &head, Node* &tail, int pos, int val)
     return 1;
 }
 
-void deleteNode(Node* &head, int pos)
-{
-    Node* ref = head;
-    Node* temp;
-    for(int i=1 ; i<pos-1 ; i++)
-    {
-        ref = ref->next;
-    }
+void deleteNode(Node* & head, int pos) 
+{ 
 
-    temp = ref->next;
-    ref->next = ref->next->next;
-    free(temp);
+    //deleting first or start node
+    if(pos == 1) 
+    {
+        Node* temp = head;
+        head = head -> next;
+        //memory free start ndoe
+        temp -> next = NULL;
+        delete temp;
+    }
+    else
+    {
+        //deleting any middle node or last node
+        Node* curr = head;
+        Node* prev = NULL;
+
+        int cnt = 1;
+        while(cnt < pos) 
+        {
+            prev = curr;
+            curr = curr -> next;
+            cnt++;
+        }
+
+        prev -> next = curr -> next;
+        curr -> next  = NULL;
+        delete curr;
+
+    }
 }
 
 void printList(Node* &head)
@@ -134,9 +164,9 @@ int main()
     cout<<"\nLinked List after Inserting at Tail:"<<endl;
     printList(head);
 
-    deleteNode(head, 5);
+    deleteNode(head, 13);
 
-    cout<<"\nLinked List after Deleting at 5th position:"<<endl;
+    cout<<"\nLinked List after Deleting at 13th position:"<<endl;
     printList(head);
 
     cout<<"\nHead: "<<head->data<<endl;
