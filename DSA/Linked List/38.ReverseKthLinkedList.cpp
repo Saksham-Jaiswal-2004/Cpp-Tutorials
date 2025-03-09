@@ -73,63 +73,43 @@ int insertAtMiddle(Node* &head, Node* &tail, int pos, int val)
     return 1;
 }
 
-// Approach 1
-Node* findMiddle(Node* head)
+int length(Node* head)
 {
-    Node* a = head;
-    Node* b = head;
-    Node* c = head;
-    int len = 0;
+    int len=0;
+    Node* temp = head;
 
-    if(head == NULL)
+    while(temp!=NULL)
     {
-        return NULL;
-    }
-
-    while(b->next!=NULL && b->next->next!=NULL)
-    {
-        a = a->next;
-        b = b->next->next;
-    }
-
-    while(c!=NULL)
-    {
+        temp = temp->next;
         len++;
-        c = c->next;
     }
 
-    if(len%2!=0)
-    return a;
-    else
-    return a->next;
+    return len;
 }
 
-// Approach 2
-Node* findMiddle2(Node* head)
+void reverseKGroup(Node* head, int k)
 {
-    Node* a = head;
-    int len = 0;
+    Node* temp = head;
 
-    if(head == NULL)
+    int num = length(head)/k;
+    int num2 = length(head)%k;
+
+    for(int j=0 ; j<num ; j++)
     {
-        return NULL;
+        for(int i=0 ; i<k ; i++)
+        {
+            cout<<temp->data<<" ";
+            temp = temp->next;
+        }
+        cout<<endl;
     }
 
-    while(a!=NULL)
+    for(int i=0 ; i<num2 ; i++)
     {
-        a = a->next;
-        len++;
+        cout<<temp->data<<" ";
+        temp = temp->next;
     }
-
-    a = head;
-    int ans = (len/2);
-
-    for(int i=0 ; i<ans ; i++)
-    {
-        a = a->next;
-    }
-
-    return a;
+    cout<<endl;
 }
 
 void printList(Node* head)
@@ -151,7 +131,7 @@ int main()
     Node* head = node1;
     Node* tail = node1;
 
-    for(int i=0 ; i<5 ; i++)
+    for(int i=0 ; i<9 ; i++)
     {
         int num = rand() % (100 - 1 + 1) + 1;
         insertAtTail(tail, num);
@@ -162,19 +142,16 @@ int main()
 
     cout<<endl;
 
-    cout<<"(a) After Middle of Linked List: "<<endl;
-    printList(findMiddle(head));
+    reverseKGroup(head, 3);
 
     cout<<endl;
 
-    cout<<"(b) After Middle of Linked List: "<<endl;
-    printList(findMiddle2(head));
+    cout<<"Length of Linked List: "<<length(head)<<endl;
 
     cout<<endl;
 
-    cout<<"(c) After Middle of Linked List: "<<endl;
-    printList(findMiddle(NULL));
-    printList(findMiddle2(NULL));
+    cout<<"Head: "<<head->data<<endl;
+    cout<<"Tail: "<<tail->data<<endl;
 
     return 0;
 }
