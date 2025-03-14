@@ -87,29 +87,47 @@ int length(Node* head)
     return len;
 }
 
-void reverseKGroup(Node* head, int k)
+Node* reverseKGroup(Node* &head, int k)
 {
     Node* temp = head;
+    Node* previous = head;
+    Node* current = head;
+    Node* forward = head->next;
 
     int num = length(head)/k;
     int num2 = length(head)%k;
 
     for(int j=0 ; j<num ; j++)
     {
+        for(int i=0 ; i<k*(j+1) ; i++)
+        {
+            previous = previous->next;
+        }
+        for(int i=0 ; i<k*j ; i++)
+        {
+            head = head->next;
+        }
+        forward = head->next;
+
         for(int i=0 ; i<k ; i++)
         {
-            cout<<temp->data<<" ";
-            temp = temp->next;
+            current->next = previous;
+            if(i!=k-1)
+            {
+                previous = current;
+                current = forward;
+            }
+            
+            if(current!=NULL)
+            head = current;
+
+            if(forward!=NULL)
+            forward = forward->next;
         }
         cout<<endl;
     }
 
-    for(int i=0 ; i<num2 ; i++)
-    {
-        cout<<temp->data<<" ";
-        temp = temp->next;
-    }
-    cout<<endl;
+    return head;
 }
 
 void printList(Node* head)
@@ -142,11 +160,12 @@ int main()
 
     cout<<endl;
 
-    reverseKGroup(head, 3);
+    cout<<"Head: "<<head->data<<endl;
+    cout<<"Tail: "<<tail->data<<endl;
 
     cout<<endl;
 
-    cout<<"Length of Linked List: "<<length(head)<<endl;
+    printList(reverseKGroup(head, 3));
 
     cout<<endl;
 
