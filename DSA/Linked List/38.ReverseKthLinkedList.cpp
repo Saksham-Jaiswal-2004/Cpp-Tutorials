@@ -87,47 +87,68 @@ int length(Node* head)
     return len;
 }
 
-Node* reverseKGroup(Node* &head, int k)
+int possible(Node* head, int k)
 {
     Node* temp = head;
+    int count = 0;
+
+    for(int i=0 ; i<k ; i++)
+    {
+        if(temp!=NULL)
+        {
+            count++;
+        }
+        else
+        {
+            return 0;
+        }
+        temp = temp->next;
+    }
+    return 1;
+}
+
+Node* reverseKGroup(Node* &head, int k)
+{
+    Node* temp;
+    Node* tail = head;
     Node* previous = head;
     Node* current = head;
     Node* forward = head->next;
 
-    int num = length(head)/k;
-    int num2 = length(head)%k;
+    if(k==1)
+    return head;
 
-    for(int j=0 ; j<num ; j++)
+    if(possible(head, k) && current!=NULL)
     {
-        for(int i=0 ; i<k*(j+1) ; i++)
+        cout<<"Test 1"<<endl;
+        for(int i=0 ; i<k ; i++)
         {
             previous = previous->next;
         }
-        for(int i=0 ; i<k*j ; i++)
-        {
-            head = head->next;
-        }
-        forward = head->next;
 
+        cout<<"Test 2"<<endl;
         for(int i=0 ; i<k ; i++)
         {
-            current->next = previous;
-            if(i!=k-1)
-            {
-                previous = current;
-                current = forward;
-            }
+            temp = current;
             
-            if(current!=NULL)
-            head = current;
+            current->next = previous;
+            previous = current;
+            current = forward; 
 
-            if(forward!=NULL)
-            forward = forward->next;
+            if(current->next != NULL)
+            forward = current->next;
         }
-        cout<<endl;
+        cout<<"Test 3"<<endl;
+
+        cout<<"previous: "<<previous->data<<endl;
+        cout<<"current: "<<current->data<<endl;
+        cout<<"forward: "<<forward->data<<endl;
+        
+        if(current!=NULL)
+        tail->next = reverseKGroup(current, k);
     }
 
-    return head;
+    return previous;
 }
 
 void printList(Node* head)
@@ -144,33 +165,36 @@ void printList(Node* head)
 int main()
 {
     srand(time(0));
+
+    int len, k;
+
+    cout<<"Enter length of Linked List: ";
+    cin>>len;
+    cout<<"Entered length: "<<len<<endl;
+    cout<<"Enter length of groups to be reversed: ";
+    cin>>k;
+
     Node* node1 = new Node(10);
 
     Node* head = node1;
     Node* tail = node1;
 
-    for(int i=0 ; i<9 ; i++)
+    for(int i=0 ; i<len-1 ; i++)
     {
         int num = rand() % (100 - 1 + 1) + 1;
         insertAtTail(tail, num);
     }
 
+    cout<<endl;
     cout<<"Original Linked List: "<<endl;
     printList(head);
+    
+    cout<<endl;
+    
+    cout<<"Reversed Linked List in group of "<<k<<": "<<endl;
+    printList(reverseKGroup(head, k));
 
     cout<<endl;
-
-    cout<<"Head: "<<head->data<<endl;
-    cout<<"Tail: "<<tail->data<<endl;
-
-    cout<<endl;
-
-    printList(reverseKGroup(head, 3));
-
-    cout<<endl;
-
-    cout<<"Head: "<<head->data<<endl;
-    cout<<"Tail: "<<tail->data<<endl;
 
     return 0;
 }
