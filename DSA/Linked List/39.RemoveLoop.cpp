@@ -87,15 +87,15 @@ int main()
     Node* head = new Node(1);
     Node* temp = head;
 
-    // for(int i=0 ; i<9 ; i++)
-    // {
-    //     Node* newNode = new Node(i+2);
-    //     temp->next = newNode;
-    //     temp = newNode;
-    // }
+    for(int i=0 ; i<9 ; i++)
+    {
+        Node* newNode = new Node(i+2);
+        temp->next = newNode;
+        temp = newNode;
+    }
 
-    // printList(head);
-    // temp->next = head;
+    printList(head);
+    temp->next = head;
     temp = head;
 
     for(int i=0 ; i<1 ; i++)
