@@ -7,7 +7,6 @@ struct Edge
     int u, v, w;
 };
 
-// Comparator for qsort
 int cmp(const void *a, const void *b) 
 {
     return ((struct Edge*)a)->w - ((struct Edge*)b)->w;
